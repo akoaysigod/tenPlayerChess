@@ -1,4 +1,4 @@
-./Client/export
-./Server/py3env
-./Client/*.sublime-workspace
-./Client/*.sublime-project
+Client/export/
+Server/py3env/
+Client/*.sublime-workspace
+Client/*.sublime-project
