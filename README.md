@@ -3,10 +3,10 @@ This is a ten player simultaneous chess game. It's written in Haxe using [HaxeFl
 This still needs a lot of testing but should be somewhat playable considering there is no win logic yet. I, so far, have only tested this using Chromium. Client needs a lot of refactoring, particularly in the determineMoves method. 
 
 <b>Instructions:</b><br>
-[Install Autobahn](http://autobahn.ws/python/installation.html)
+[Install Autobahn](http://autobahn.ws/python/installation.html)<br>
 Note this is using Python 3 so if you don't want to mess things up then use a virtual environment or something. 
 
-Download the [Client](http://solarjetmen.com/games/bin/chessBin.tgz)
+Download the [Client](http://solarjetmen.com/games/bin/chessBin.tgz)<br>
 You can also compile it yourself from here. The client also has a folder for the server.
 
 If compiling the server is set in Connect.hx server = "whateverYouWant"
