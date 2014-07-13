@@ -1,0 +1,275 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"FlxTyp",
+				"FlxTypedGroup	flixel.group"
+			],
+			[
+				"player",
+				"playerNum	var"
+			],
+			[
+				"WebSocketSer",
+				"WebSocketServerFactory"
+			],
+			[
+				"WebS",
+				"WebSocketServerProtocol"
+			],
+			[
+				"WebSocket",
+				"WebSocketServerFactory"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 96.0,
+		"selected_items":
+		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 521.0
+	},
+	"console":
+	{
+		"height": 181.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/tony/Desktop/chess/client/ChessClient/export/html5/bin/ChessClient.js",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Pawn.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Knight.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/King.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Connect.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Piece.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/PlayState.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Main.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/Project.xml",
+		"/home/tony/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/tony/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Bishop.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Rook.hx",
+		"/home/tony/Desktop/chess/client/ChessClient/source/Queen.hx",
+		"/home/tony/Desktop/t.py",
+		"/home/tony/Desktop/SpriteTools/unpack.py",
+		"/home/tony/Desktop/test.txt",
+		"/home/tony/Desktop/SpriteTools/pack.py",
+		"/home/tony/Desktop/SpriteTools/main.py",
+		"/home/tony/Desktop/SpriteTools/test.json",
+		"/home/tony/Desktop/AdriansQuest/assets/images/sprites.json",
+		"/home/tony/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/usr/lib/haxe/lib/flixel/3,3,1/flixel/FlxSprite.hx",
+		"/home/tony/Desktop/FaxGame/source/Player.hx",
+		"/home/tony/Desktop/FaxGame/source/Enemy.hx",
+		"/home/tony/Desktop/FaxGame/source/Tent.hx",
+		"/home/tony/Desktop/FaxGame/source/hud/Arrow.hx"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"assignN",
+			"playerPI",
+			"getPieceTypeFr",
+			"colorSpri",
+			"type",
+			"assignNew",
+			"start",
+			"determine",
+			"message",
+			"pieces.remove",
+			"colorSpri",
+			"assignNewPiece",
+			"assign",
+			"remove",
+			"assignNe",
+			"assignN",
+			"remove",
+			"playerControlling",
+			"_white",
+			"getPiec",
+			"checkBlack",
+			"determine",
+			"560 - ",
+			"560 - x",
+			"Array",
+			"displayMoves",
+			"Cur",
+			"xCur",
+			"Cur",
+			"sendPosition",
+			"isWhite",
+			"Queue",
+			"'''\n",
+			"8887",
+			"8889",
+			"ascii",
+			"t",
+			"set_color",
+			"this.color",
+			"255255",
+			"255",
+			"color",
+			"break",
+			"for",
+			"white",
+			"_socket",
+			"t",
+			"server",
+			"socket",
+			"ctrl+k",
+			"WebSocket",
+			"socket",
+			"WebSocket",
+			"socket",
+			"ctrl+d",
+			"ctrl+shift+b",
+			"socket",
+			"black",
+			"white",
+			"playerControlling",
+			"white",
+			"Rook",
+			"whitePawn",
+			"names",
+			"loadGraphic"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "ChessClient.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": false,
+	"template_settings":
+	{
+	}
+}
