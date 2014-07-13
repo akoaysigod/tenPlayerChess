@@ -9,9 +9,9 @@ Note this is using Python 3 so if you don't want to mess things up then use a vi
 Download the [Client](http://solarjetmen.com/games/bin/chessBin.tgz)
 You can also compile it yourself from here. The client also has a folder for the server.
 
-If compiling the server is set in Connect.hx _server = "whateverYouWant"
+If compiling the server is set in Connect.hx server = "whateverYouWant"
 Otherwise, search for "solarjetmen.com" in the ChessClient.js. It's currently on line 24625.
-Edit the Server.py server in __main__, it should be pretty obvious. 
+Edit the Server.py server in main, it should be pretty obvious. 
 
 To see it running already, probably, checkout [solarjetmen.com/chessGame](http://solarjetmen.com/chessGame/). The server may or may not be doing something weird but it'll get more stable as I continue to finish this.
 
