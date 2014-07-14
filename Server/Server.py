@@ -1,14 +1,7 @@
 import json
 import queue
 from threading import Lock
-'''
-import sys
 
-from twisted.internet import reactor
-from twisted.python import log
-from twisted.web.server import Site
-from twisted.web.static import File
-'''
 from autobahn.asyncio.websocket import WebSocketServerFactory, WebSocketServerProtocol
 import asyncio
 
