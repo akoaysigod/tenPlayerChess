@@ -1,3 +1,9 @@
+/*
+need to figure out how this works 
+NMEPreloader.hx is in export/../haxe/
+FlxPreloaderBase does nothing for html5
+*/
+
 import flixel.system.FlxPreloaderBase;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
