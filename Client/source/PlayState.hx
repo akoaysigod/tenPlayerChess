@@ -865,7 +865,7 @@ class PlayState extends FlxState {
 
 
 
-	private function sendPosition(xMove:Float = -1.0, yMove:Float = -1.00) {
+	public function sendPosition(xMove:Float = -1.0, yMove:Float = -1.0) {
 		var x = _playerPiece.x / 80;
 		var y = _playerPiece.y / 80;
 

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #source py3env/bin/activate
 
 import json
@@ -23,7 +24,7 @@ class Game:
 
     @classmethod
     def setup(cls):
-        for i in range(1, 9):
+        for i in range(1, 11):
             cls.available.put(i, i)
         inProgress = False
 
@@ -41,6 +42,24 @@ class Game:
             cls.gameState.append(t)
         cls.gameState.append(wf)
         cls.gameState.append(wb)
+
+    @classmethod
+    def checkWinner(cls):
+        kingWhite = False
+        kingBlack = False
+        for i in cls.gameState:
+            if 44 in i:
+                kingBlack = True
+            if 24 in i:
+                kingWhite = True
+        if not kingWhite:
+            return 'blackWins'
+        if not kingBlack:
+            return 'whiteWins'
+        return 'continue'
+
+
+
 
 
 
@@ -143,6 +162,10 @@ class Server(WebSocketServerProtocol):
         Game.gameState[yMove][xMove] = pID
 
         self.factory.broadcast({'msg': 'playerpositions', 'positions': Game.playerPositions})
+
+        winner = Game.checkWinner()
+        if winner != 'continue':
+            self.factory.broadcast({'msg': winner})
 
         Game.lock.release()
 

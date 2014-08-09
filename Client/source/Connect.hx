@@ -76,6 +76,9 @@ class Connect {
         } 
         else if (o.msg == "playerjoined") {
             currentPlayers = o.names;
+            if (playerNum != 101) {
+                _game.sendPosition();
+            }
         }
         else if (o.msg == "playerpositions") {
             var positions:Array<Connect.Position> = o.positions;
@@ -87,13 +90,19 @@ class Connect {
 
                 _game.colorSprite(p.name, p.pID);
             }
-            _game.determineMoves();
+
+            if (playerNum != 101) {
+                _game.determineMoves();
+            }
         }
         else if (o.msg == "destroypid") {
             _game.removePieceByPID(o.pID);
         }
         else if (o.msg == "playerleft") {
             _game.playerLeft(o.pID);
+        }
+        else if (o.msg == "whiteWins" || o.msg == "blackWins") {
+            
         }
     }
 
