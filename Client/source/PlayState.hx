@@ -56,6 +56,10 @@ class PlayState extends FlxState {
 		_socket.connect();
 	}
 
+	public function resetGame() {
+		openSubState(new flixel.FlxSubState());
+	}
+
 	override public function destroy():Void {
 		super.destroy();
 	}
@@ -70,7 +74,7 @@ class PlayState extends FlxState {
 					if (y > move.y && y < move.y + 80.0) {
 						sendPosition(move.x, move.y);
 						_playerMoves = [];
-						resetBoard();
+						resetBoardColor();
 						break;
 					}
 				}
@@ -80,7 +84,7 @@ class PlayState extends FlxState {
 		super.update();
 	}	
 
-	private function resetBoard() {
+	private function resetBoardColor() {
 		for (i in 0..._board.length) {
 			var box = _board.members[i];
 			box.defaultColor();
@@ -169,6 +173,7 @@ class PlayState extends FlxState {
 
 	public function updatePositions(playerNum, pID, xPos:Float, yPos:Float) {
 		if (_playerNum == playerNum && pID == 0) {
+			_socket.sendDestroyed(_playerPiece.pID);
 			assignNewPiece();
 			return;
 		}
@@ -212,7 +217,7 @@ class PlayState extends FlxState {
 	}
 
 	private function assignNewPiece() {
-		resetBoard();
+		resetBoardColor();
 
 		var pawnCount = 0;
 		var knightCount = 0;
@@ -787,7 +792,7 @@ class PlayState extends FlxState {
 			return;
 		}
 
-		resetBoard();
+		resetBoardColor();
 
 		var x = _playerPiece.x;
 		var y = _playerPiece.y;
@@ -861,7 +866,6 @@ class PlayState extends FlxState {
 		p.changeColor();
 		p.playerNum = -1;
 	}
-
 
 
 

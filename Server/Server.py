@@ -15,6 +15,7 @@ class Game:
     playerNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     curPlayers = []
     connectedNum = 0
+    destroyed = []
 
     uniquePlayer = {}
     playerPositions = []
@@ -115,9 +116,14 @@ class Server(WebSocketServerProtocol):
 
             broadcast = 'playerjoined'
             self.factory.broadcast(broadcast)
+
+            gameStateMsg = {'msg': 'destroyed', 'destroyed': Game.destroyed}
+            self.factory.broadcast(gameStateMsg)
         elif m == 'playerposition':
             self.addPlayer(message)
             self.updateGameState(message)
+        elif m == 'destroyed':
+            Game.destroyed.append(message['pID'])
 
     def updateGameState(self, message):
         Game.lock.acquire()
@@ -156,6 +162,7 @@ class Server(WebSocketServerProtocol):
                     break
 
             if not isPlayerPiece:
+                Game.destroyed.append(pieceAtPosition)
                 self.factory.broadcast({'msg': 'destroypid', 'pID': pieceAtPosition})
 
         Game.gameState[y][x] = 0
@@ -166,7 +173,7 @@ class Server(WebSocketServerProtocol):
         winner = Game.checkWinner()
         if winner != 'continue':
             self.factory.broadcast({'msg': winner})
-
+            #reset game state
         Game.lock.release()
 
 

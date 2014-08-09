@@ -32,7 +32,7 @@ class Connect {
     private var _game:PlayState;
 
     public function new(game:PlayState) {
-        playerNum = 0;
+        playerNum = 101;
         _game = game;
     }
 
@@ -95,15 +95,33 @@ class Connect {
                 _game.determineMoves();
             }
         }
-        else if (o.msg == "destroypid") {
-            _game.removePieceByPID(o.pID);
+        else if (o.msg == "destroypid" || o.msg == "destroyed") {
+            if (o.msg == "destroyed") {
+                var pieces:Array<Int> = o.destroyed;
+                for (p in pieces) {
+                    _game.removePieceByPID(p);
+                }
+            }
+            else {
+                _game.removePieceByPID(o.pID);
+            }
         }
         else if (o.msg == "playerleft") {
             _game.playerLeft(o.pID);
         }
         else if (o.msg == "whiteWins" || o.msg == "blackWins") {
-            
+            playerNum = 101;
+            socket.close(1000, "game end");
+            _game.resetGame();
         }
+    }
+
+    public function sendDestroyed(pID: Int) {
+        var lostPiece = {
+            msg: "destroyed",
+            pID: pID
+        }
+        sendMessage(lostPiece);
     }
 
     public function onError(e) {
