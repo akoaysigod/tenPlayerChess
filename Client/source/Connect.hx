@@ -112,7 +112,7 @@ class Connect {
         else if (o.msg == "whiteWins" || o.msg == "blackWins") {
             playerNum = 101;
             socket.close(1000, "game end");
-            _game.resetGame();
+            _game.resetGame(o.msg);
         }
     }
 

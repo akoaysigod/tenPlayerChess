@@ -56,11 +56,25 @@ class PlayState extends FlxState {
 		_socket.connect();
 	}
 
-	public function resetGame() {
+	public function resetGame(winner:String) {
 		openSubState(new flixel.FlxSubState());
+
+		var end:GameOverState = new GameOverState();
+		end.winner = winner;
+		FlxG.switchState(end);
 	}
 
 	override public function destroy():Void {
+		_socket = null;
+		_board.destroy();
+		_board = null;
+		_white.destroy();
+		_white = null;
+		_black.destroy();
+		_black = null;
+		_playerPiece = null;
+		_playerMoves = null;
+
 		super.destroy();
 	}
 
