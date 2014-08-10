@@ -10,7 +10,7 @@ import asyncio
 
 
 class Game:
-    available = queue.PriorityQueue()
+    available = queue.PriorityQueue(10)
     lock = Lock()
     playerNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     curPlayers = []
@@ -59,7 +59,20 @@ class Game:
             return 'whiteWins'
         return 'continue'
 
+    @classmethod
+    def reset(cls):
+        cls.curPlayers[:] = []
+        cls.connectedNum = 0
+        cls.destroyed[:] = []
 
+        cls.uniquePlayer.clear()
+        cls.playerPositions[:] = []
+        cls.gameState[:] = []
+
+        cls.board()
+
+        cls.inProgress = False
+        return
 
 
 
@@ -88,6 +101,9 @@ class Server(WebSocketServerProtocol):
                 break
         
         Game.available.put(pNum, pNum)
+        if Game.available.full():
+            Game.reset();
+
         broadcast = {'message': 'playerleft', 'name': pNum, 'pID': pID}
         self.factory.broadcast(broadcast)
 
@@ -173,7 +189,6 @@ class Server(WebSocketServerProtocol):
         winner = Game.checkWinner()
         if winner != 'continue':
             self.factory.broadcast({'msg': winner})
-            #reset game state
         Game.lock.release()
 
 
