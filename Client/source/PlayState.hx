@@ -909,5 +909,37 @@ class PlayState extends FlxState {
 		};
 
 		_socket.sendMessage(m);
+
+		if (_playerPiece.y >= 160.0) {
+			return;
+		}
+
+		//think of a better way to handle this
+		if (_playerPiece.pID >= 10 && _playerPiece.pID <= 17) {
+			var x = _playerPiece.x;
+			var y = _playerPiece.y;
+
+			_white.remove(_playerPiece, true);
+			_playerPiece.destroy();
+			_playerPiece = new Queen(x, y, 0);
+			_playerPiece.playerNum = _playerNum;
+			_playerPiece.pID = _playerNum;
+			_playerPiece.changeColor();
+			_white.add(_playerPiece);
+			_playerControlling = _playerNum;
+		}
+		else if (_playerPiece.pID >= 30 && _playerPiece.pID <= 37) {
+			var x = _playerPiece.x;
+			var y = _playerPiece.y;
+
+			_black.remove(_playerPiece, true);
+			_playerPiece.destroy();
+			_playerPiece = new Queen(x, y, 1);
+			_playerPiece.playerNum = _playerNum;
+			_playerPiece.pID = _playerNum;
+			_playerPiece.changeColor();
+			_black.add(_playerPiece);
+			_playerControlling = _playerNum;
+		}
 	}
 }
