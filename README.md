@@ -13,7 +13,7 @@ If compiling the server is set in Connect.hx server = "whateverYouWant"
 Otherwise, search for "solarjetmen.com" in the ChessClient.js. It's currently on line 24625.
 Edit the Server.py server in main, it should be pretty obvious. 
 
-To see it running already, probably, checkout [solarjetmen.com/chessGame](http://solarjetmen.com/chessGame/). The server may or may not be doing something weird but it'll get more stable as I continue to finish this.
+To see it running already, probably, checkout [solarjetmen.com/chessGame](http://solarjetmen.com/chessGame/). The server seems to be pretty stable so it should be running constantly now. 
 
 <b>Credits:</b><br>
 Chess pieces were by [Brian Provan](http://opengameart.org/content/colorful-chess-pieces)
