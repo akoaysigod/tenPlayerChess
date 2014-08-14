@@ -1,6 +1,8 @@
 import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
+
 
 class Piece extends FlxSprite {
     public var pID:Int;
@@ -17,5 +19,15 @@ class Piece extends FlxSprite {
         super(x, y);
 
         playerNum = -1;
+    }
+
+    public function checkPieces(xPos, yPos, pieces:FlxTypedGroup<Piece>) {
+        for (i in 0...pieces.length) {
+            var w = pieces.members[i];
+            if (w.x == xPos && w.y == yPos) {
+                return true;
+            }
+        }
+        return false;
     }
 }

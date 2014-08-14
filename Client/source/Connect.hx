@@ -109,6 +109,11 @@ class Connect {
         else if (o.msg == "playerleft") {
             _game.playerLeft(o.pID);
         }
+        else if (o.msg == "upgradepawn") {
+            if (o.pName != playerNum) {
+                _game.upgradePawn(o.pID, o.pName);
+            }
+        }
         else if (o.msg == "whiteWins" || o.msg == "blackWins") {
             playerNum = 101;
             socket.close(1000, "game end");
@@ -119,9 +124,18 @@ class Connect {
     public function sendDestroyed(pID: Int) {
         var lostPiece = {
             msg: "destroyed",
-            pID: pID
+            pID: pID,
+            pName: playerNum
         }
         sendMessage(lostPiece);
+    }
+
+    public function upgradePawn(pID: Int) {
+        var upgradePiece = {
+            msg: "upgradepawn",
+            pID: pID
+        }
+        sendMessage(upgradePiece);
     }
 
     public function onError(e) {

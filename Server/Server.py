@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-#source py3env/bin/activate
 
 import json
 import queue
@@ -140,6 +139,8 @@ class Server(WebSocketServerProtocol):
             self.updateGameState(message)
         elif m == 'destroyed':
             Game.destroyed.append(message['pID'])
+        elif m == 'upgradePiece':
+            self.factory.broadcast(message);
 
     def updateGameState(self, message):
         Game.lock.acquire()

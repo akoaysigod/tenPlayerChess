@@ -107,12 +107,21 @@ class PlayState extends FlxState {
 
 	private function getPieceFromPID(pID):Piece {
 		var p:Piece = new Piece(0, 0);
-		var pieces;
+		var pieces = new FlxTypedGroup();
+
 		if (pID <= 27) {
 			pieces = _white;
 		}
-		else {
+		else if (pID >= 30 && pID <= 47){
 			pieces = _black;
+		}
+		else if (pID >= 50) {
+			if (pID % 2 == 0) {
+				pieces = _black;
+			}
+			else {
+				pieces = _white;
+			}
 		}
 
 		for (i in 0...pieces.length) {
@@ -863,11 +872,30 @@ class PlayState extends FlxState {
 			moves = getBishopMoves(x, y, isWhite);
 		}
 		else if (type == 4) {
-			moves = getBishopMoves(x, y, isWhite);
-			moves.concat(getRookMoves(x, y, isWhite));
+			moves = _playerPiece.getMoves(_white, _black);
 		}
 
 		displayMoves(moves);
+	}
+
+	public function upgradePawn(pID: Int, pName: Int) {
+		var piece = getPieceFromPID(pID);
+		var xPos = piece.x;
+		var yPos = piece.y;
+
+		var queen = new Queen(xPos, yPos, 0);
+
+		if (pName % 2 == 0) {
+			_black.remove(piece, true);
+			queen.isWhite = true;
+		}
+		else {
+			_white.remove(piece, true);
+			queen.isWhite = false;
+		}
+		queen.playerNum = pName;
+		queen.changeColor();
+		piece.destroy();
 	}
 
 	public function playerLeft(pID:Int) {
@@ -914,6 +942,8 @@ class PlayState extends FlxState {
 			return;
 		}
 
+		_socket.upgradePawn(_playerPiece.pID);
+
 		//think of a better way to handle this
 		if (_playerPiece.pID >= 10 && _playerPiece.pID <= 17) {
 			var x = _playerPiece.x;
@@ -922,11 +952,7 @@ class PlayState extends FlxState {
 			_white.remove(_playerPiece, true);
 			_playerPiece.destroy();
 			_playerPiece = new Queen(x, y, 0);
-			_playerPiece.playerNum = _playerNum;
-			_playerPiece.pID = _playerNum;
-			_playerPiece.changeColor();
 			_white.add(_playerPiece);
-			_playerControlling = _playerNum;
 		}
 		else if (_playerPiece.pID >= 30 && _playerPiece.pID <= 37) {
 			var x = _playerPiece.x;
@@ -935,11 +961,13 @@ class PlayState extends FlxState {
 			_black.remove(_playerPiece, true);
 			_playerPiece.destroy();
 			_playerPiece = new Queen(x, y, 1);
-			_playerPiece.playerNum = _playerNum;
-			_playerPiece.pID = _playerNum;
-			_playerPiece.changeColor();
 			_black.add(_playerPiece);
-			_playerControlling = _playerNum;
 		}
+
+
+		_playerPiece.playerNum = _playerNum;
+		_playerPiece.pID = _playerNum + 50;
+		_playerPiece.changeColor();
+		_playerControlling = _playerNum;
 	}
 }
