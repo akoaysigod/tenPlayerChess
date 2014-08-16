@@ -20,7 +20,23 @@ class Piece extends FlxSprite {
         playerNum = -1;
     }
 
-    public function checkPieces(xPos, yPos, pieces:FlxTypedGroup<Piece>) {
+    //might be a better way to handle this for block checking out of bounds
+    //but I want to keep bounds checking in one place just in case I add UI someday
+    public function checkPieces(xPos, yPos, pieces:FlxTypedGroup<Piece>, isBlockCheck: Bool):Bool {
+        if (xPos < 0.0 || xPos > 560.0) {
+            if (isBlockCheck) {
+                return true;
+            }
+            return false;
+        }
+
+        if (yPos < 0.0 || yPos > 560.0) {
+            if (isBlockCheck) {
+                return true;
+            }
+            return false;
+        }
+
         for (i in 0...pieces.length) {
             var w = pieces.members[i];
             if (!w.alive) {

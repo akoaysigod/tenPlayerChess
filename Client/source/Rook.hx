@@ -75,57 +75,56 @@ class Rook extends Piece {
             var uY = y + (i * 80);
             var dY = y - (i * 80);
             
-            var canAttackR = checkPieces(rX, y, attack);
-            var canAttackL = checkPieces(lX, y, attack);
-            var canAttackU = checkPieces(x, uY, attack);
-            var canAttackD = checkPieces(x, dY, attack);
+            var canAttackR = checkPieces(rX, y, attack, false);
+            var canAttackL = checkPieces(lX, y, attack, false);
+            var canAttackU = checkPieces(x, uY, attack, false);
+            var canAttackD = checkPieces(x, dY, attack, false);
 
-            if (canAttackR && rX <= 560.0 && !attackR) {
+            if (canAttackR && !attackR) {
                 moves.push(new FlxPoint(rX, y));
                 attackR = true;
             }
 
-            if (canAttackL && lX >= 0.0 && !attackL) {
+            if (canAttackL && !attackL) {
                 moves.push(new FlxPoint(lX, y));
                 attackL = true;
             }
 
-            if (canAttackU && uY <= 560.0 && !attackU) {
+            if (canAttackU && !attackU) {
                 moves.push(new FlxPoint(x, uY));
                 attackU = true;
             }
 
-            if (canAttackD && dY >= 0.0 && !attackD) {
+            if (canAttackD && !attackD) {
                 moves.push(new FlxPoint(x, dY));
                 attackD = true;
             }
 
-            var blockedR = checkPieces(rX, y, blocked);
+            var blockedR = checkPieces(rX, y, blocked, true);
             if (blockedR) isBlockedR = true;
-            var blockedL = checkPieces(lX, y, blocked);
+            var blockedL = checkPieces(lX, y, blocked, true);
             if (blockedL) isBlockedL = true;
-            var blockedU = checkPieces(x, uY, blocked);
+            var blockedU = checkPieces(x, uY, blocked, true);
             if (blockedU) isBlockedU = true;
-            var blockedD = checkPieces(x, dY, blocked);
+            var blockedD = checkPieces(x, dY, blocked, true);
             if (blockedD) isBlockedD = true;
 
-            if (!isBlockedR && !blockedR && rX <= 560.0) {
+            if (!isBlockedR && !blockedR) {
                 if (!attackR) moves.push(new FlxPoint(rX, y));
             }
 
-            if (!isBlockedL && !blockedL && lX >= 0.0) {
+            if (!isBlockedL && !blockedL) {
                 if (!attackL) moves.push(new FlxPoint(lX, y));
             }
 
-            if (!isBlockedU && !blockedU && uY <= 560.0) {
+            if (!isBlockedU && !blockedU) {
                 if (!attackU) moves.push(new FlxPoint(x, uY));
             }
 
-            if (!isBlockedD && !blockedD && dY >= 0.0) {
+            if (!isBlockedD && !blockedD) {
                 if (!attackD) moves.push(new FlxPoint(x, dY));
             }
         }
-
         return moves;
     }
 }

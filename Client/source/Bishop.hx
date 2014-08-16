@@ -50,7 +50,6 @@ class Bishop extends Piece {
         }
     }
 
-
     public function getMoves(white: FlxTypedGroup<Piece>, black:FlxTypedGroup<Piece>): Array<FlxPoint> {
         var moves: Array<FlxPoint> = new Array();
         var blocked = black;
@@ -76,71 +75,55 @@ class Bishop extends Piece {
             var uY = y + (i * 80);
             var dY = y - (i * 80);
 
-            var canAttackRU = checkPieces(rX, uY, attack);
-            var canAttackLU = checkPieces(lX, uY, attack);
-            var canAttackRD = checkPieces(rX, dY, attack);
-            var canAttackLD = checkPieces(lX, dY, attack);
+            var canAttackRU = checkPieces(rX, uY, attack, false);
+            var canAttackLU = checkPieces(lX, uY, attack, false);
+            var canAttackRD = checkPieces(rX, dY, attack, false);
+            var canAttackLD = checkPieces(lX, dY, attack, false);
 
             if (canAttackRU && !attackRU) {
-                if (rX <= 560.0 && uY <= 560.0) {
-                    moves.push(new FlxPoint(rX, uY));
-                    attackRU = true;
-                }
+                moves.push(new FlxPoint(rX, uY));
+                attackRU = true;
             }
 
             if (canAttackLU && !attackLU) {
-                if (lX >= 0.0 && uY <= 560.0) {
-                    moves.push(new FlxPoint(lX, uY));
-                    attackLU = true;
-                }
+                moves.push(new FlxPoint(lX, uY));
+                attackLU = true;
             }
 
             if (canAttackRD && !attackRD) {
-                if (rX <= 560.0 && dY >= 0.0) {
-                    moves.push(new FlxPoint(rX, dY));
-                    attackRD = true;
-                }
+                moves.push(new FlxPoint(rX, dY));
+                attackRD = true;
             }
 
             if (canAttackLD && !attackLD) {
-                if (lX >= 0.0 && dY >= 0.0) {
-                    moves.push(new FlxPoint(lX, dY));
-                    attackLD = true;
-                }
+                moves.push(new FlxPoint(lX, dY));
+                attackLD = true;
             }
 
-            var blockedRU = checkPieces(rX, uY, blocked);
+            var blockedRU = checkPieces(rX, uY, blocked, true);
             if (blockedRU) isBlockedRU = true;
-            var blockedLU = checkPieces(lX, uY, blocked);
+            var blockedLU = checkPieces(lX, uY, blocked, true);
             if (blockedLU) isBlockedLU = true;
-            var blockedRD = checkPieces(rX, dY, blocked);
+            var blockedRD = checkPieces(rX, dY, blocked, true);
             if (blockedRD) isBlockedRD = true;
-            var blockedLD = checkPieces(lX, dY, blocked);
+            var blockedLD = checkPieces(lX, dY, blocked, true);
             if (blockedLD) isBlockedLD = true;
 
             if (!isBlockedRU && !blockedRU) {
-                if (rX <= 560.0 && uY <= 560.0) {
-                    if (!attackRU) moves.push(new FlxPoint(rX, uY));
-                }
+                if (!attackRU) moves.push(new FlxPoint(rX, uY));
             }
 
             if (!isBlockedLU && !blockedLU) {
-                if (lX >= 0.0 && uY <= 560.0) {
-                    if (!attackLU) moves.push(new FlxPoint(lX, uY));
-                }
+                if (!attackLU) moves.push(new FlxPoint(lX, uY));
             }
 
 
             if (!isBlockedRD && !blockedRD) {
-                if (rX <= 560.0 && dY >= 0.0) {
-                    if (!attackRD) moves.push(new FlxPoint(rX, dY));
-                }
+                if (!attackRD) moves.push(new FlxPoint(rX, dY));
             }
 
             if (!isBlockedLD && !blockedLD) {
-                if (lX >= 0.0 && dY >= 0.0) {
-                    if (!attackLD) moves.push(new FlxPoint(lX, dY));
-                }
+                if (!attackLD) moves.push(new FlxPoint(lX, dY));
             }
         }
         return moves;

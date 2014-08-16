@@ -1,6 +1,8 @@
 import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
+import flixel.util.FlxPoint;
 
 class King extends Piece {
     public function new(x, y, blackWhite) {
@@ -46,5 +48,78 @@ class King extends Piece {
         case 21:
             loadGraphic("assets/images/blackKing.png");
         }
+    }
+
+    public function getMoves(white: FlxTypedGroup<Piece>, black:FlxTypedGroup<Piece>): Array<FlxPoint> {
+        var moves: Array<FlxPoint> = new Array();
+        var blocked = black;
+        var attack = white;
+
+        if (isWhite) {
+            blocked = white;
+            attack = black;
+        }
+
+        var rX = x + 80.0;
+        var lX = x - 80.0;
+        var uY = y + 80.0;
+        var dY = y - 80.0;
+
+        //you should figure out how to loop on a grid in a circle someday
+
+        //WASD
+        if (checkPieces(rX, y, attack, false)) {
+            moves.push(new FlxPoint(rX, y));
+        }
+        if (checkPieces(lX, y, attack, false)) {
+            moves.push(new FlxPoint(lX, y));
+        }
+        if (checkPieces(x, uY, attack, false)) {
+            moves.push(new FlxPoint(x, uY));
+        }
+        if (checkPieces(x, dY, attack, false)) {
+            moves.push(new FlxPoint(x, dY));
+        }
+        //DIAGONAL
+        if (checkPieces(rX, uY, attack, false)) {
+            moves.push(new FlxPoint(rX, uY));
+        }
+        if (checkPieces(lX, uY, attack, false)) {
+            moves.push(new FlxPoint(lX, uY));
+        }
+        if (checkPieces(rX, dY, attack, false)) {
+            moves.push(new FlxPoint(rX, dY));
+        }
+        if (checkPieces(lX, dY, attack, false)) {
+            moves.push(new FlxPoint(lX, dY));
+        }
+
+        //WASD
+        if (!checkPieces(rX, y, blocked, true)) {
+            moves.push(new FlxPoint(rX, y));
+        }
+        if (!checkPieces(lX, y, blocked, true)) {
+            moves.push(new FlxPoint(lX, y));
+        }
+        if (!checkPieces(x, uY, blocked, true)) {
+            moves.push(new FlxPoint(x, uY));
+        }
+        if (!checkPieces(x, dY, blocked, true)) {
+            moves.push(new FlxPoint(x, dY));
+        }
+        //DIAGONAL
+        if (!checkPieces(rX, uY, blocked, true)) {
+            moves.push(new FlxPoint(rX, uY));
+        }
+        if (!checkPieces(lX, uY, blocked, true)) {
+            moves.push(new FlxPoint(lX, uY));
+        }
+        if (!checkPieces(rX, dY, blocked, true)) {
+            moves.push(new FlxPoint(rX, dY));
+        }
+        if (!checkPieces(lX, dY, blocked, true)) {
+            moves.push(new FlxPoint(lX, dY));
+        }
+        return moves;
     }
 }
