@@ -60,10 +60,10 @@ class Queen extends Piece {
             attack = black;
         }
 
-        var foundRight = false;
-        var foundLeft = false;
-        var foundUp = false;
-        var foundDown = false;
+        var attackR = false;
+        var attackL = false;
+        var attackU = false;
+        var attackD = false;
         var isBlockedR = false;
         var isBlockedL = false;
         var isBlockedU = false;
@@ -80,53 +80,49 @@ class Queen extends Piece {
             var canAttackU = checkPieces(x, uY, attack);
             var canAttackD = checkPieces(x, dY, attack);
 
-            if (canAttackR && rX < 560.0 && !foundRight) {
+            if (canAttackR && rX <= 560.0 && !attackR) {
                 moves.push(new FlxPoint(rX, y));
-                foundRight = true;
+                attackR = true;
             }
 
-            if (canAttackL && lX > 80.0 && !foundLeft) {
+            if (canAttackL && lX >= 0.0 && !attackL) {
                 moves.push(new FlxPoint(lX, y));
-                foundLeft = true;
+                attackL = true;
             }
 
-            if (canAttackU && uY > 80.0 && !foundUp) {
+            if (canAttackU && uY <= 560.0 && !attackU) {
                 moves.push(new FlxPoint(x, uY));
-                foundUp = true;
+                attackU = true;
             }
 
-            if (canAttackD && dY > 560.0 && !foundDown) {
+            if (canAttackD && dY >= 0.0 && !attackD) {
                 moves.push(new FlxPoint(x, dY));
-                foundDown = true;
+                attackD = true;
             }
 
             var blockedR = checkPieces(rX, y, blocked);
-            if (blockedR) { isBlockedR = true; }
+            if (blockedR) isBlockedR = true;
             var blockedL = checkPieces(lX, y, blocked);
-            if (blockedL) { isBlockedL = true; }
+            if (blockedL) isBlockedL = true;
             var blockedU = checkPieces(x, uY, blocked);
-            if (blockedU) { isBlockedU = true; }
+            if (blockedU) isBlockedU = true;
             var blockedD = checkPieces(x, dY, blocked);
-            if (blockedD) { isBlockedD = true; }
+            if (blockedD) isBlockedD = true;
 
-            if (!isBlockedR && !blockedR && rX < 560.0) {
-                moves.push(new FlxPoint(rX, y));
-                isBlockedR = true;
+            if (!isBlockedR && !blockedR && rX <= 560.0) {
+                if (!attackR) moves.push(new FlxPoint(rX, y));
             }
 
-            if (!isBlockedL && !blockedL && lX > 80.0) {
-                moves.push(new FlxPoint(lX, y));
-                isBlockedL = true;
+            if (!isBlockedL && !blockedL && lX >= 0.0) {
+                if (!attackL) moves.push(new FlxPoint(lX, y));
             }
 
-            if (!isBlockedU && !blockedU && uY > 80.0) {
-                moves.push(new FlxPoint(x, uY));
-                isBlockedU = true;
+            if (!isBlockedU && !blockedU && uY <= 560.0) {
+                if (!attackU) moves.push(new FlxPoint(x, uY));
             }
 
-            if (!isBlockedD && !blockedD && dY > 560.0) {
-                moves.push(new FlxPoint(x, dY));
-                isBlockedD = true;
+            if (!isBlockedD && !blockedD && dY >= 0.0) {
+                if (!attackD) moves.push(new FlxPoint(x, dY));
             }
         }
 

@@ -149,25 +149,25 @@ class PlayState extends FlxState {
 	}
 
 	public function removePieceByPID(pID:Int) {
-		var pieces;
-		if (pID >= 30) {
+		var pieces = _white;
+		if ((pID >= 30 && pID <= 47) || (pID >= 80 && pID <= 87)) {
 			pieces = _black;
 		}
-		else {
-			pieces = _white;
-		}
+		// else if ((pID >= 10 && pID <= 27) || (pID >= 60 && pID <= 67)) {
+		// 	pieces = _white;
+		// }
 
 		for (i in 0...pieces.length) {
 			var p:Piece = pieces.members[i];
 			if (p.pID == pID) {
-				p.destroy();
+				p.kill();
 				break;
 			}
 		}
 	}
 
 	private function removePiece(playerNum:Int) {
-		var pieces;
+		var pieces:FlxTypedGroup<Piece>;
 		if (playerNum % 2 == 0) {
 			pieces = _black;
 		}
@@ -179,7 +179,7 @@ class PlayState extends FlxState {
 			var p:Piece = pieces.members[i];
 			if (p.playerNum == playerNum) {
 				//pieces.remove(p, true);
-				p.destroy();
+				p.kill();
 				//p = null;
 				break;
 			}
@@ -249,7 +249,7 @@ class PlayState extends FlxState {
 			pieces = _white;
 		}
 		//pieces.remove(_playerPiece, true);
-		_playerPiece.destroy();
+		_playerPiece.kill();
 		//_playerPiece = null;
 
 		for (i in 0...pieces.length) {
@@ -852,7 +852,7 @@ class PlayState extends FlxState {
 			queen.isWhite = true;
 			_white.add(queen);
 		}
-		piece.destroy();
+		piece.kill();
 
 		queen.pID = pName + 50;
 		queen.playerNum = pName;
@@ -910,7 +910,7 @@ class PlayState extends FlxState {
 			var y = _playerPiece.y;
 
 			_white.remove(_playerPiece, true);
-			_playerPiece.destroy();
+			_playerPiece.kill();
 			_playerPiece = new Queen(x, y, 0);
 			_white.add(_playerPiece);
 		}
@@ -919,7 +919,7 @@ class PlayState extends FlxState {
 			var y = _playerPiece.y;
 
 			_black.remove(_playerPiece, true);
-			_playerPiece.destroy();
+			_playerPiece.kill();
 			_playerPiece = new Queen(x, y, 1);
 			_black.add(_playerPiece);
 		}
