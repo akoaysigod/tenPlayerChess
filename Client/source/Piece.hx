@@ -3,7 +3,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 
-
 class Piece extends FlxSprite {
     public var pID:Int;
     public var playerNum:Int;
@@ -27,7 +26,7 @@ class Piece extends FlxSprite {
             if (!w.alive) {
                 continue;
             }
-            
+
             if (w.x == xPos && w.y == yPos) {
                 return true;
             }

@@ -60,6 +60,7 @@ class Queen extends Piece {
             attack = black;
         }
 
+        //WASD
         var attackR = false;
         var attackL = false;
         var attackU = false;
@@ -69,12 +70,23 @@ class Queen extends Piece {
         var isBlockedU = false;
         var isBlockedD = false;
 
+        //DIAGONAL
+        var attackRU = false;
+        var attackLU = false;
+        var attackRD = false;
+        var attackLD = false;
+        var isBlockedRU = false;
+        var isBlockedLU = false;
+        var isBlockedRD = false;
+        var isBlockedLD = false;
+
         for (i in 1...8) {
+            //WASD START
             var rX = x + (i * 80);
             var lX = x - (i * 80);
             var uY = y + (i * 80);
             var dY = y - (i * 80);
-            
+
             var canAttackR = checkPieces(rX, y, attack);
             var canAttackL = checkPieces(lX, y, attack);
             var canAttackU = checkPieces(x, uY, attack);
@@ -124,8 +136,80 @@ class Queen extends Piece {
             if (!isBlockedD && !blockedD && dY >= 0.0) {
                 if (!attackD) moves.push(new FlxPoint(x, dY));
             }
-        }
 
+            //DIAGONAL START
+            var rX = x + (i * 80);
+            var lX = x - (i * 80);
+            var uY = y + (i * 80);
+            var dY = y - (i * 80);
+
+            var canAttackRU = checkPieces(rX, uY, attack);
+            var canAttackLU = checkPieces(lX, uY, attack);
+            var canAttackRD = checkPieces(rX, dY, attack);
+            var canAttackLD = checkPieces(lX, dY, attack);
+
+            if (canAttackRU && !attackRU) {
+                if (rX <= 560.0 && uY <= 560.0) {
+                    moves.push(new FlxPoint(rX, uY));
+                    attackRU = true;
+                }
+            }
+
+            if (canAttackLU && !attackLU) {
+                if (lX >= 0.0 && uY <= 560.0) {
+                    moves.push(new FlxPoint(lX, uY));
+                    attackLU = true;
+                }
+            }
+
+            if (canAttackRD && !attackRD) {
+                if (rX <= 560.0 && dY >= 0.0) {
+                    moves.push(new FlxPoint(rX, dY));
+                    attackRD = true;
+                }
+            }
+
+            if (canAttackLD && !attackLD) {
+                if (lX >= 0.0 && dY >= 0.0) {
+                    moves.push(new FlxPoint(lX, dY));
+                    attackLD = true;
+                }
+            }
+
+            var blockedRU = checkPieces(rX, uY, blocked);
+            if (blockedRU) isBlockedRU = true;
+            var blockedLU = checkPieces(lX, uY, blocked);
+            if (blockedLU) isBlockedLU = true;
+            var blockedRD = checkPieces(rX, dY, blocked);
+            if (blockedRD) isBlockedRD = true;
+            var blockedLD = checkPieces(lX, dY, blocked);
+            if (blockedLD) isBlockedLD = true;
+
+            if (!isBlockedRU && !blockedRU) {
+                if (rX <= 560.0 && uY <= 560.0) {
+                    if (!attackRU) moves.push(new FlxPoint(rX, uY));
+                }
+            }
+
+            if (!isBlockedLU && !blockedLU) {
+                if (lX >= 0.0 && uY <= 560.0) {
+                    if (!attackLU) moves.push(new FlxPoint(lX, uY));
+                }
+            }
+
+
+            if (!isBlockedRD && !blockedRD) {
+                if (rX <= 560.0 && dY >= 0.0) {
+                    if (!attackRD) moves.push(new FlxPoint(rX, dY));
+                }
+            }
+
+            if (!isBlockedLD && !blockedLD) {
+                if (lX >= 0.0 && dY >= 0.0) {
+                    if (!attackLD) moves.push(new FlxPoint(lX, dY));
+                }
+            }
+        }
         return moves;
     }
 }
