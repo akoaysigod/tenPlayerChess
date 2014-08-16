@@ -30,4 +30,15 @@ class Piece extends FlxSprite {
         }
         return false;
     }
+
+    public function checkUpgrade():Bool {
+        if (type != 0) {
+            return false;
+        }
+
+        if (y < 160.0) {
+            return true;
+        }
+        return false;
+    }
 }

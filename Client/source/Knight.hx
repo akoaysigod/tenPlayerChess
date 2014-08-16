@@ -1,6 +1,8 @@
 import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.util.FlxPoint;
+import flixel.group.FlxTypedGroup;
 
 class Knight extends Piece {
     public function new(x, y, blackWhite) {
@@ -46,5 +48,39 @@ class Knight extends Piece {
         case 21:
             loadGraphic("assets/images/blackKnight.png");
         }
+    }
+
+    public function getMoves(white: FlxTypedGroup<Piece>, black:FlxTypedGroup<Piece>) {
+        var blockedBy = black;
+        if (isWhite) {
+            blockedBy = white;
+        }
+
+        //clockwise starting at bottom left move
+        var tempMoves:Array<FlxPoint> = new Array();
+        tempMoves.push(new FlxPoint(x - 160.0, y + 80.0));
+        tempMoves.push(new FlxPoint(x - 80.0, y + 160.0));
+        tempMoves.push(new FlxPoint(x + 80.0, y + 160.0));
+        tempMoves.push(new FlxPoint(x + 160.0, y + 80.0));
+        tempMoves.push(new FlxPoint(x + 160.0, y - 80.0));
+        tempMoves.push(new FlxPoint(x + 80.0, y - 160.0));
+        tempMoves.push(new FlxPoint(x - 80.0, y - 160.0));
+        tempMoves.push(new FlxPoint(x - 160.0, y - 80.0));
+
+        var retMoves:Array<FlxPoint> = new Array();
+        for (move in tempMoves) {
+            var isBlocked = false;
+            for (i in 0...blockedBy.length) {
+                var p:Piece = blockedBy.members[i];
+                if (p.x == move.x && p.y == move.y) {
+                    isBlocked = true;
+                    break;
+                }
+            }
+            if (!isBlocked) {
+                retMoves.push(move);
+            }
+        }
+        return retMoves;
     }
 }

@@ -133,7 +133,8 @@ class Connect {
     public function upgradePawn(pID: Int) {
         var upgradePiece = {
             msg: "upgradepawn",
-            pID: pID
+            pID: pID,
+            pName: playerNum
         }
         sendMessage(upgradePiece);
     }

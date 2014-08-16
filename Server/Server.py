@@ -15,6 +15,7 @@ class Game:
     curPlayers = []
     connectedNum = 0
     destroyed = []
+    upgraded = []
 
     uniquePlayer = {}
     playerPositions = []
@@ -59,10 +60,25 @@ class Game:
         return 'continue'
 
     @classmethod
+    def upgradePawn(cls, pID, pName, msg):
+        for d in cls.playerPositions:
+            if d['name'] == pName:
+                d['pID'] = pID
+                break
+
+        for i in cls.gameState:
+            if pID - 50 in i:
+                i = pID
+                break
+
+        cls.upgraded.append(msg)
+
+    @classmethod
     def reset(cls):
         cls.curPlayers[:] = []
         cls.connectedNum = 0
         cls.destroyed[:] = []
+        cls.upgraded[:] = []
 
         cls.uniquePlayer.clear()
         cls.playerPositions[:] = []
@@ -134,12 +150,14 @@ class Server(WebSocketServerProtocol):
 
             gameStateMsg = {'msg': 'destroyed', 'destroyed': Game.destroyed}
             self.factory.broadcast(gameStateMsg)
+            #send upgraded pieces also
         elif m == 'playerposition':
             self.addPlayer(message)
             self.updateGameState(message)
         elif m == 'destroyed':
             Game.destroyed.append(message['pID'])
-        elif m == 'upgradePiece':
+        elif m == 'upgradepawn':
+            Game.upgradePawn(int(message['pID']), message['pName'], message)
             self.factory.broadcast(message);
 
     def updateGameState(self, message):
@@ -155,7 +173,7 @@ class Server(WebSocketServerProtocol):
         yMWorld = y
         pID = message['pID']
 
-        if pID >= 30:
+        if pID >= 30 and pID <= 47 or pID >= 80 and pID <= 87:
             x = 7 - x
             y = 7 - y
             xMove = 7 - xMove

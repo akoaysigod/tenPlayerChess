@@ -79,7 +79,7 @@ class PlayState extends FlxState {
 	}
 
 	override public function update():Void {
-		if (FlxG.mouse.justReleased) {
+		if (FlxG.mouse.justReleased && _playerNum < 101) {
 			for (move in _playerMoves) {
 				var x = FlxG.mouse.x;
 				var y = FlxG.mouse.y;
@@ -109,19 +109,11 @@ class PlayState extends FlxState {
 		var p:Piece = new Piece(0, 0);
 		var pieces = new FlxTypedGroup();
 
-		if (pID <= 27) {
+		if (pID <= 27 || (pID >= 60 && pID <= 67)) {
 			pieces = _white;
 		}
-		else if (pID >= 30 && pID <= 47){
+		else if ((pID >= 30 && pID <= 47) || (pID >=- 80 && pID <= 87)) {
 			pieces = _black;
-		}
-		else if (pID >= 50) {
-			if (pID % 2 == 0) {
-				pieces = _black;
-			}
-			else {
-				pieces = _white;
-			}
 		}
 
 		for (i in 0...pieces.length) {
@@ -775,41 +767,6 @@ class PlayState extends FlxState {
 		return moves;
 	}
 
-	private function getKnightMoves(x:Float, y:Float, isWhite): Array<FlxPoint>  {
-		var blockedBy = _black;
-		if (isWhite) {
-			blockedBy = _white;
-		}
-
-		//clockwise starting at bottom left move
-		var tempMoves:Array<FlxPoint> = new Array();
-		tempMoves.push(new FlxPoint(x - 160.0, y + 80.0));
-		tempMoves.push(new FlxPoint(x - 80.0, y + 160.0));
-		tempMoves.push(new FlxPoint(x + 80.0, y + 160.0));
-		tempMoves.push(new FlxPoint(x + 160.0, y + 80.0));
-		tempMoves.push(new FlxPoint(x + 160.0, y - 80.0));
-		tempMoves.push(new FlxPoint(x + 80.0, y - 160.0));
-		tempMoves.push(new FlxPoint(x - 80.0, y - 160.0));
-		tempMoves.push(new FlxPoint(x - 160.0, y - 80.0));
-
-		var retMoves:Array<FlxPoint> = new Array();
-		for (move in tempMoves) {
-			var isBlocked = false;
-			for (i in 0...blockedBy.length) {
-				var p:Piece = blockedBy.members[i];
-				if (p.x == move.x && p.y == move.y) {
-					isBlocked = true;
-					break;
-				}
-			}
-			if (!isBlocked) {
-				retMoves.push(move);
-			}
-		}
-		return retMoves;
-	}
-
-
 	public function determineMoves() {
 		if (_playerNum == 101) {
 			return;
@@ -866,7 +823,7 @@ class PlayState extends FlxState {
 			moves = getRookMoves(x, y, isWhite);
 		}
 		else if (type == 2) {
-			moves = getKnightMoves(x, y, isWhite);
+			moves = _playerPiece.getMoves(_white, _black);
 		}
 		else if (type == 3) {
 			moves = getBishopMoves(x, y, isWhite);
@@ -879,7 +836,7 @@ class PlayState extends FlxState {
 	}
 
 	public function upgradePawn(pID: Int, pName: Int) {
-		var piece = getPieceFromPID(pID);
+		var piece = getPieceFromPID(pID - 50);
 		var xPos = piece.x;
 		var yPos = piece.y;
 
@@ -887,15 +844,19 @@ class PlayState extends FlxState {
 
 		if (pName % 2 == 0) {
 			_black.remove(piece, true);
-			queen.isWhite = true;
+			queen.isWhite = false;
+			_black.add(queen);
 		}
 		else {
 			_white.remove(piece, true);
-			queen.isWhite = false;
+			queen.isWhite = true;
+			_white.add(queen);
 		}
+		piece.destroy();
+
+		queen.pID = pName + 50;
 		queen.playerNum = pName;
 		queen.changeColor();
-		piece.destroy();
 	}
 
 	public function playerLeft(pID:Int) {
@@ -938,14 +899,13 @@ class PlayState extends FlxState {
 
 		_socket.sendMessage(m);
 
-		if (_playerPiece.y >= 160.0) {
+		if (!_playerPiece.checkUpgrade()) {
 			return;
 		}
 
-		_socket.upgradePawn(_playerPiece.pID);
-
 		//think of a better way to handle this
-		if (_playerPiece.pID >= 10 && _playerPiece.pID <= 17) {
+		var pID = _playerPiece.pID;
+		if (pID >= 10 && pID <= 17) {
 			var x = _playerPiece.x;
 			var y = _playerPiece.y;
 
@@ -954,7 +914,7 @@ class PlayState extends FlxState {
 			_playerPiece = new Queen(x, y, 0);
 			_white.add(_playerPiece);
 		}
-		else if (_playerPiece.pID >= 30 && _playerPiece.pID <= 37) {
+		else if (pID >= 30 && pID <= 37) {
 			var x = _playerPiece.x;
 			var y = _playerPiece.y;
 
@@ -966,8 +926,45 @@ class PlayState extends FlxState {
 
 
 		_playerPiece.playerNum = _playerNum;
-		_playerPiece.pID = _playerNum + 50;
+		_playerPiece.pID = pID + 50;
 		_playerPiece.changeColor();
 		_playerControlling = _playerNum;
+
+		_socket.upgradePawn(_playerPiece.pID);
 	}
 }
+
+
+/*private function getKnightMoves(x:Float, y:Float, isWhite): Array<FlxPoint>  {
+	var blockedBy = _black;
+	if (isWhite) {
+		blockedBy = _white;
+	}
+
+	//clockwise starting at bottom left move
+	var tempMoves:Array<FlxPoint> = new Array();
+	tempMoves.push(new FlxPoint(x - 160.0, y + 80.0));
+	tempMoves.push(new FlxPoint(x - 80.0, y + 160.0));
+	tempMoves.push(new FlxPoint(x + 80.0, y + 160.0));
+	tempMoves.push(new FlxPoint(x + 160.0, y + 80.0));
+	tempMoves.push(new FlxPoint(x + 160.0, y - 80.0));
+	tempMoves.push(new FlxPoint(x + 80.0, y - 160.0));
+	tempMoves.push(new FlxPoint(x - 80.0, y - 160.0));
+	tempMoves.push(new FlxPoint(x - 160.0, y - 80.0));
+
+	var retMoves:Array<FlxPoint> = new Array();
+	for (move in tempMoves) {
+		var isBlocked = false;
+		for (i in 0...blockedBy.length) {
+			var p:Piece = blockedBy.members[i];
+			if (p.x == move.x && p.y == move.y) {
+				isBlocked = true;
+				break;
+			}
+		}
+		if (!isBlocked) {
+			retMoves.push(move);
+		}
+	}
+	return retMoves;
+}*/
