@@ -4,6 +4,7 @@ class Board extends FlxSprite {
     private var _blackWhite:Int;
     public var playerNum:Int;
     private var _isWhite:Bool;
+    public var selectable:Bool;
 
     public function new(x, y, blackWhite):Void {
         super(x, y);
@@ -16,9 +17,13 @@ class Board extends FlxSprite {
             loadGraphic("assets/images/blackSquare.png");
             _isWhite = false;
         }
+
+        selectable = false;
     }
 
     public function defaultColor() {
+        selectable = false;
+
         if (_isWhite) {
             loadGraphic("assets/images/whiteSquare.png");
         }
@@ -28,6 +33,7 @@ class Board extends FlxSprite {
     }
 
     public function changeColor() {
+        selectable = true;
         switch(playerNum) {
         case 1:
             loadGraphic("assets/images/lightGrayMarker.png");

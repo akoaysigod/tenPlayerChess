@@ -9,6 +9,7 @@ import flixel.util.FlxMath;
 import flixel.util.FlxPoint;
 import flixel.group.FlxTypedGroup;
 import flixel.group.FlxGroup;
+import flixel.plugin.MouseEventManager;
 
 class PlayState extends FlxState {
 	private var _playerControlling:Int;
@@ -54,6 +55,17 @@ class PlayState extends FlxState {
 
 		_socket = new Connect(this);
 		_socket.connect();
+
+		for (b in _board) {
+			MouseEventManager.add(b, null, onMouseUp, null, null, false, true, false); //pixel perfect doesn't work in html5?
+		}
+	}
+	private function onMouseUp(b:Board):Void {
+		if (b.selectable) {
+			sendPosition(b.x, b.y);
+			_playerMoves = [];
+			resetBoardColor();
+		}
 	}
 
 	public function resetGame(winner:String) {
@@ -79,22 +91,6 @@ class PlayState extends FlxState {
 	}
 
 	override public function update():Void {
-		if (FlxG.mouse.justReleased && _playerNum < 101) {
-			for (move in _playerMoves) {
-				var x = FlxG.mouse.x;
-				var y = FlxG.mouse.y;
-
-				if (x > move.x && x < move.x + 80.0) {
-					if (y > move.y && y < move.y + 80.0) {
-						sendPosition(move.x, move.y);
-						_playerMoves = [];
-						resetBoardColor();
-						break;
-					}
-				}
-			}
-		}
-
 		super.update();
 	}	
 
@@ -278,7 +274,7 @@ class PlayState extends FlxState {
 		}
 			
 		var getPieceType = -1;
-		if (pawnCount >= 100) {
+		if (pawnCount >= 5) {
 			getPieceType = 0;
 		}
 		else if (knightCount > 0) {
