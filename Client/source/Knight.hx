@@ -58,15 +58,32 @@ class Knight extends Piece {
 
         //clockwise starting at bottom left move
         var tempMoves:Array<FlxPoint> = new Array();
-        tempMoves.push(new FlxPoint(x - 160.0, y + 80.0));
-        tempMoves.push(new FlxPoint(x - 80.0, y + 160.0));
-        tempMoves.push(new FlxPoint(x + 80.0, y + 160.0));
-        tempMoves.push(new FlxPoint(x + 160.0, y + 80.0));
-        tempMoves.push(new FlxPoint(x + 160.0, y - 80.0));
-        tempMoves.push(new FlxPoint(x + 80.0, y - 160.0));
-        tempMoves.push(new FlxPoint(x - 80.0, y - 160.0));
-        tempMoves.push(new FlxPoint(x - 160.0, y - 80.0));
+        if (!checkPieces(x - 160.0, y + 80.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x - 160.0, y + 80.0));
+        }
+        if (!checkPieces(x - 80.0, y + 160.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x - 80.0, y + 160.0));
+        }
+        if (!checkPieces(x + 80.0, y + 160.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x + 80.0, y + 160.0));
+        }
+        if (!checkPieces(x + 160.0, y + 80.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x + 160.0, y + 80.0));
+        }
+        if (!checkPieces(x + 160.0, y - 80.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x + 160.0, y - 80.0));
+        }
+        if (!checkPieces(x + 80.0, y - 160.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x + 80.0, y - 160.0));
+        }
+        if (!checkPieces(x - 80.0, y - 160.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x - 80.0, y - 160.0));
+        }
+        if (!checkPieces(x - 160.0, y - 80.0, blockedBy, true)) {
+            tempMoves.push(new FlxPoint(x - 160.0, y - 80.0));
+        }
 
+/*
         var retMoves:Array<FlxPoint> = new Array();
         for (move in tempMoves) {
             var isBlocked = false;
@@ -80,7 +97,7 @@ class Knight extends Piece {
             if (!isBlocked) {
                 retMoves.push(move);
             }
-        }
-        return retMoves;
+*/
+        return tempMoves;
     }
 }

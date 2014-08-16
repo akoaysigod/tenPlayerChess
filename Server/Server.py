@@ -66,9 +66,17 @@ class Game:
                 d['pID'] = pID
                 break
 
+        #this is really ugly there must be a better way
         for i in cls.gameState:
-            if pID - 50 in i:
-                i = pID
+            found = False
+            try:
+                k = i.index(pID - 50)
+                i[k] = pID
+                found = True
+            except ValueError:
+                pass
+
+            if found:
                 break
 
         cls.upgraded.append(msg)
@@ -150,7 +158,8 @@ class Server(WebSocketServerProtocol):
 
             gameStateMsg = {'msg': 'destroyed', 'destroyed': Game.destroyed}
             self.factory.broadcast(gameStateMsg)
-            #send upgraded pieces also
+            for i in Game.upgraded:
+                self.factory.broadcast(i)
         elif m == 'playerposition':
             self.addPlayer(message)
             self.updateGameState(message)

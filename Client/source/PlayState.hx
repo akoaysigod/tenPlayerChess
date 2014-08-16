@@ -203,7 +203,6 @@ class PlayState extends FlxState {
 		if (_playerNum % 2 == 0) {
 			x = 560.0 - x;
 			y = 560.0 - y;
-			trace(xPos, yPos, playerNum);
 		}
 
 		var p:Piece = getPieceFromPID(pID);
@@ -228,7 +227,7 @@ class PlayState extends FlxState {
 				break;
 			}
 		}
-		determineMoves();
+		displayMoves();
 	}
 
 	private function assignNewPiece() {
@@ -279,7 +278,7 @@ class PlayState extends FlxState {
 		}
 			
 		var getPieceType = -1;
-		if (pawnCount >= 5) {
+		if (pawnCount >= 100) {
 			getPieceType = 0;
 		}
 		else if (knightCount > 0) {
@@ -436,7 +435,11 @@ class PlayState extends FlxState {
 		}
 	}
 
-	private function displayMoves(moves:Array<FlxPoint>) {
+	public function displayMoves() {
+		resetBoardColor();
+
+		var moves:Array<FlxPoint> = _playerPiece.getMoves(_white, _black);
+
 		for (p in moves) {
 			for (i in 0..._board.length) {
 				var box = _board.members[i];
@@ -448,18 +451,6 @@ class PlayState extends FlxState {
 			}
 		}
 		_playerMoves = moves;
-	}
-
-	public function determineMoves() {
-		if (_playerNum == 101) {
-			return;
-		}
-
-		resetBoardColor();
-
-		var moves:Array<FlxPoint> = _playerPiece.getMoves(_white, _black);
-
-		displayMoves(moves);
 	}
 
 	public function upgradePawn(pID: Int, pName: Int) {
@@ -481,7 +472,7 @@ class PlayState extends FlxState {
 		}
 		piece.kill();
 
-		queen.pID = pName + 50;
+		queen.pID = pID;
 		queen.playerNum = pName;
 		queen.changeColor();
 	}
@@ -497,7 +488,38 @@ class PlayState extends FlxState {
 		p.playerNum = -1;
 	}
 
+	public function checkUpgrade():Void {
+		if (!_playerPiece.checkUpgrade()) {
+			return;
+		}
 
+		var pID = _playerPiece.pID;
+		if (pID >= 10 && pID <= 17) {
+			var x = _playerPiece.x;
+			var y = _playerPiece.y;
+
+			_white.remove(_playerPiece, true);
+			_playerPiece.kill();
+			_playerPiece = new Queen(x, y, 0);
+			_white.add(_playerPiece);
+		}
+		else if (pID >= 30 && pID <= 37) {
+			var x = _playerPiece.x;
+			var y = _playerPiece.y;
+
+			_black.remove(_playerPiece, true);
+			_playerPiece.kill();
+			_playerPiece = new Queen(x, y, 1);
+			_black.add(_playerPiece);
+		}
+
+		_playerPiece.playerNum = _playerNum;
+		_playerPiece.pID = pID + 50;
+		_playerPiece.changeColor();
+		_playerControlling = _playerNum;
+
+		_socket.upgradePawn(_playerPiece.pID);
+	}
 
 	public function sendPosition(xMove:Float = -1.0, yMove:Float = -1.0) {
 		var x = _playerPiece.x / 80;
@@ -525,39 +547,6 @@ class PlayState extends FlxState {
 		};
 
 		_socket.sendMessage(m);
-
-		if (!_playerPiece.checkUpgrade()) {
-			return;
-		}
-
-		//think of a better way to handle this
-		var pID = _playerPiece.pID;
-		if (pID >= 10 && pID <= 17) {
-			var x = _playerPiece.x;
-			var y = _playerPiece.y;
-
-			_white.remove(_playerPiece, true);
-			_playerPiece.kill();
-			_playerPiece = new Queen(x, y, 0);
-			_white.add(_playerPiece);
-		}
-		else if (pID >= 30 && pID <= 37) {
-			var x = _playerPiece.x;
-			var y = _playerPiece.y;
-
-			_black.remove(_playerPiece, true);
-			_playerPiece.kill();
-			_playerPiece = new Queen(x, y, 1);
-			_black.add(_playerPiece);
-		}
-
-
-		_playerPiece.playerNum = _playerNum;
-		_playerPiece.pID = pID + 50;
-		_playerPiece.changeColor();
-		_playerControlling = _playerNum;
-
-		_socket.upgradePawn(_playerPiece.pID);
 	}
 }
 

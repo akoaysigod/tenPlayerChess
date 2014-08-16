@@ -55,7 +55,9 @@ class Piece extends FlxSprite {
             return false;
         }
 
-        if (y < 160.0) {
+        trace(y);
+
+        if (y <= 70.0) {
             return true;
         }
         return false;

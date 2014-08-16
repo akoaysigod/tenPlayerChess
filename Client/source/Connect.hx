@@ -85,6 +85,7 @@ class Connect {
             for (p in positions) {
                 _game.updatePositions(p.name, p.pID, cast(p.xPos, Float), cast(p.yPos, Float));
                 if (p.name == playerNum) {
+                    _game.checkUpgrade();
                     continue;
                 }
 
@@ -92,7 +93,7 @@ class Connect {
             }
 
             if (playerNum != 101) {
-                _game.determineMoves();
+                _game.displayMoves();
             }
         }
         else if (o.msg == "destroypid" || o.msg == "destroyed") {
