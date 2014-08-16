@@ -1,6 +1,8 @@
 import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
+import flixel.util.FlxPoint;
 
 class Pawn extends Piece {
     public var xStart:Float;
@@ -58,5 +60,43 @@ class Pawn extends Piece {
         case 21:
             loadGraphic("assets/images/blackPawn.png");
         }
+    }
+
+    //think about adding en passant logic some day to confuse people more than they probably already would be playing this game =P
+    public function getMoves(white: FlxTypedGroup<Piece>, black:FlxTypedGroup<Piece>): Array<FlxPoint> {
+        var moves: Array<FlxPoint> = new Array();
+        var blocked = black;
+        var attack = white;
+
+        if (isWhite) {
+            blocked = white;
+            attack = black;
+        }
+
+        //check moves
+        if (!checkPieces(x, y - 80.0, blocked, true)) {
+            if (!checkPieces(x, y - 80.0, attack, false)) {
+                moves.push(new FlxPoint(x, y - 80.0));
+
+                if (y >= 480.0) {
+                    if (!checkPieces(x, y - 160.0, blocked, true)) {
+                        if (!checkPieces(x, y - 160.0, attack, false)) {
+                            moves.push(new FlxPoint(x, y - 160.0));
+                        }
+                    }
+                }
+            }
+        }
+
+        //check attacks
+        if (checkPieces(x - 80.0, y - 80.0, attack, false)) {
+            moves.push(new FlxPoint(x - 80.0, y - 80.0));
+        }
+
+        if (checkPieces(x + 80.0, y - 80.0, attack, false)) {
+            moves.push(new FlxPoint(x + 80.0, y - 80.0));
+        }
+
+        return moves;
     }
 }

@@ -450,27 +450,6 @@ class PlayState extends FlxState {
 		_playerMoves = moves;
 	}
 
-	private function checkWhite(x, y): Bool {
-		for (i in 0..._white.length) {
-			var w = _white.members[i];
-			if (w.x == x && w.y == y) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private function checkBlack(x, y): Bool {
-		for (i in 0..._black.length) {
-			var w = _black.members[i];
-			if (w.x == x && w.y == y) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
 	public function determineMoves() {
 		if (_playerNum == 101) {
 			return;
@@ -478,63 +457,7 @@ class PlayState extends FlxState {
 
 		resetBoardColor();
 
-		var x = _playerPiece.x;
-		var y = _playerPiece.y;
-		var type = _playerPiece.type;
-		var isWhite = _playerPiece.isWhite;
-
-		var moves:Array<FlxPoint> = new Array();
-
-		if (type == 0) {
-			var blocked = checkWhite(0.0 + x, -80.0 + y);
-			var blockedTwo = checkBlack(0.0 + x, -80.0 + y);
-			if (!blocked && !blockedTwo) { 
-				moves.push(new FlxPoint(x, y - 80.0));
-			}
-
-			if (x == _playerPiece.xStart && y == _playerPiece.yStart) {
-				blocked = checkWhite(0.0 + x, -160.0 + y); 
-				blockedTwo = checkBlack(0.0 + x, -160.0 + y);
-				if (!blocked && !blockedTwo) {
-					moves.push(new FlxPoint(x, y - 160.0));
-				}
-			}
-
-			if (isWhite) {
-				var attackRight = checkBlack(80.0 + x, -80.0 + y);
-				var attackLeft = checkBlack(-80.0 + x, -80.0 + y);
-				if (attackRight) {
-					moves.push(new FlxPoint(x + 80.0, y - 80.0));
-				}
-
-				if (attackLeft) {
-					moves.push(new FlxPoint(x - 80.0, y - 80.0));
-				}
-			}
-			else {
-				var attackRight = checkWhite(80.0 + x, -80.0 + y);
-				var attackLeft = checkWhite(-80.0 + x, -80.0 + y);
-				if (attackRight) {
-					moves.push(new FlxPoint(x + 80.0, y - 80.0));
-				}
-
-				if (attackLeft) {
-					moves.push(new FlxPoint(x - 80.0, y - 80.0));
-				}
-			}
-		}
-		else if (type == 1) {
-			moves = _playerPiece.getMoves(_white, _black);
-		}
-		else if (type == 2) {
-			moves = _playerPiece.getMoves(_white, _black);
-		}
-		else if (type == 3) {
-			moves = _playerPiece.getMoves(_white, _black);
-		}
-		else if (type == 4) {
-			moves = _playerPiece.getMoves(_white, _black);
-		}
+		var moves:Array<FlxPoint> = _playerPiece.getMoves(_white, _black);
 
 		displayMoves(moves);
 	}
